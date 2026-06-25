@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "hono",
+  "experimentalServices": {
+    "api": {
+      "entrypoint": "src/index.ts",
+      "routePrefix": "/"
+    }
+  }
+}

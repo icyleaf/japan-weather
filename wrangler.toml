@@ -1,0 +1,11 @@
+name = "jma-proxy"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+# 如果需要 KV 缓存（可选）
+# [[kv_namespaces]]
+# binding = "JMA_CACHE"
+# id = "your-kv-namespace-id"
+
+[vars]
+ENVIRONMENT = "production"
