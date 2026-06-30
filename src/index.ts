@@ -2,6 +2,7 @@ import { createHonoApp } from "@/lib";
 import coreRoute from "@/routes/core";
 import healthRoute from "@/routes/health";
 import jmaRoute from "@/routes/jma";
+import githubRoute from "@/routes/github";
 
 const app = createHonoApp();
 const routes = [
@@ -12,6 +13,10 @@ const routes = [
   {
     path: "/jma",
     route: jmaRoute,
+  },
+  {
+    path: "/github",
+    route: githubRoute,
   },
   {
     path: "/",
