@@ -4,7 +4,7 @@ import { japaneseToChineseWeather } from "@/utils/wordConverter";
 
 interface TenkiWeather extends SimpleWeather {
   city: string;
-  weather_code: number;
+  weather_code: string;
   rain_prob: string;
   current_wind: string;
   pressure: string;
@@ -22,6 +22,24 @@ interface TenkiWeather extends SimpleWeather {
 export async function fetchTenkiWeather(code: string): Promise<TenkiWeather> {
   const path = code.replace(/-/g, "/");
   const url = `https://tenki.jp/forecast/${path}/`;
+
+  // weather
+  // https://static.tenki.jp/static-api/history/forecast/13117.js
+
+  // heatstroke 熱中症
+  // https://static.tenki.jp/static-api/history/heatstroke/13117.js
+
+  // heatshock 熱中症指数
+  // https://static.tenki.jp/static-api/history/heatshock/13117.js
+
+  // 気圧
+  // https://static.tenki.jp/static-api/history/pressure/13117.js
+
+  //
+  // https://static.tenki.jp/static-api/history/sakura/13117.js
+
+  // pollen 花粉
+  // https://static.tenki.jp/static-api/history/pollen/13117.js
 
   const res = await fetch(url, {
     headers: {
@@ -47,9 +65,13 @@ export async function fetchTenkiWeather(code: string): Promise<TenkiWeather> {
   );
 
   // 天气图标代码（从 img src 提取文件名数字）
-  const iconSrc = $(".weather-icon img").first().attr("src") || "";
-  const weatherCodeMatch = iconSrc.match(/\/(\d+)\.png$/);
-  const weather_code = weatherCodeMatch ? Number(weatherCodeMatch[1]) : -1;
+  const iconSrc =
+    $(".today-weather .weather-icon img").first().attr("src") || "";
+  const iconFileName = iconSrc.split("/").pop()?.split("?")[0] || "";
+  const weatherCodeMatch = iconFileName.match(
+    /^(\d+)(?:_[a-z]+)?(?:@[\w-]+)?\.png$/i,
+  );
+  const weather_code = weatherCodeMatch ? weatherCodeMatch[1] : "-";
 
   // 最高/最低气温
   const highTemp = $(".high-temp.temp .value").first().text().trim();
